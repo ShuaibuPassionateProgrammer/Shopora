@@ -14,9 +14,9 @@ A full-stack e-commerce application built with the MERN stack (MongoDB, Express,
 
 ## Screenshots
 
-![Home Page](/images/screenshots-home.png)
+![Home Page](frontend/public/images/screenshots-home.png)
 
-![Register Page](/images/screenshots-register.png)
+![Register Page](frontend/public/images/screenshots-register.png)
 
 ## Technology Stack
 
