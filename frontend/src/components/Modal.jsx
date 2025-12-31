@@ -1,21 +1,75 @@
-const Modal = ({ isOpen, onClose, children }) => {
+import { FaTimes } from "react-icons/fa";
+import { useEffect } from "react";
+
+const Modal = ({ isOpen, onClose, children, title }) => {
+  // Close modal on Escape key press
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen, onClose]);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
   return (
-    <>
-      {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="fixed inset-0 bg-black opacity-50"></div>
-          <div className="absolute top-[40%] right-[50%] bg-white p-4 rounded-lg z-10 text-right">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fadeIn">
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Modal Content */}
+      <div className="relative bg-gradient-to-br from-[#1a1a1a] to-[#1f1f1f] border border-[#333] rounded-2xl max-w-2xl w-full shadow-premium-lg animate-slideIn overflow-hidden">
+        {/* Header */}
+        {title && (
+          <div className="flex items-center justify-between p-6 border-b border-[#333]">
+            <h3 className="text-xl font-bold text-white">{title}</h3>
             <button
-              className="text-black font-semibold hover:text-gray-700 focus:outline-none mr-2"
               onClick={onClose}
+              className="text-gray-400 hover:text-white hover:bg-[#2a2a2a] w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-300"
+              aria-label="Close modal"
             >
-              X
+              <FaTimes />
             </button>
-            {children}
           </div>
+        )}
+
+        {/* Close button when no title */}
+        {!title && (
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 z-10 text-gray-400 hover:text-white hover:bg-[#2a2a2a] w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-300"
+            aria-label="Close modal"
+          >
+            <FaTimes className="text-lg" />
+          </button>
+        )}
+
+        {/* Content */}
+        <div className="p-6 text-white max-h-[calc(100vh-200px)] overflow-y-auto scrollbar-hide">
+          {children}
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 

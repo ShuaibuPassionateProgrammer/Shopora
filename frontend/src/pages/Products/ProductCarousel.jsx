@@ -35,7 +35,7 @@ const ProductCarousel = () => {
       ) : (
         <Slider
           {...settings}
-          className="xl:w-[50rem]  lg:w-[50rem] md:w-[56rem] sm:w-[40rem] sm:block"
+          className="xl:w-[50rem] lg:w-[50rem] md:w-[56rem] sm:w-[40rem] sm:block"
         >
           {products.map(
             ({
@@ -52,49 +52,68 @@ const ProductCarousel = () => {
               countInStock,
             }) => (
               <div key={_id}>
-                <img
-                  src={image}
-                  alt={name}
-                  className="w-full rounded-lg object-cover h-[30rem]"
-                />
+                <div className="image-container mb-6">
+                  <img
+                    src={image}
+                    alt={name}
+                    className="w-full rounded-xl object-cover h-[30rem]"
+                  />
+                </div>
 
-                <div className="mt-4 flex justify-between">
-                  <div className="one">
-                    <h2>{name}</h2>
-                    <p> $ {price}</p> <br /> <br />
-                    <p className="w-[25rem]">
-                      {description.substring(0, 170)} ...
-                    </p>
+                <div className="space-y-6">
+                  {/* Product Title and Price */}
+                  <div className="space-y-2">
+                    <h2 className="text-2xl font-bold text-white">{name}</h2>
+                    <p className="text-3xl font-bold text-gradient">$ {price}</p>
                   </div>
 
-                  <div className="flex justify-between w-[20rem]">
-                    <div className="one">
-                      <h1 className="flex items-center mb-6">
-                        <FaStore className="mr-2 text-white" /> Brand: {brand}
-                      </h1>
-                      <h1 className="flex items-center mb-6">
-                        <FaClock className="mr-2 text-white" /> Added:{" "}
-                        {moment(createdAt).fromNow()}
-                      </h1>
-                      <h1 className="flex items-center mb-6">
-                        <FaStar className="mr-2 text-white" /> Reviews:
-                        {numReviews}
-                      </h1>
+                  {/* Description */}
+                  <p className="text-gray-400 leading-relaxed max-w-2xl">
+                    {description.substring(0, 170)} ...
+                  </p>
+
+                  {/* Product Info Grid */}
+                  <div className="grid grid-cols-2 gap-4 pt-4">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 text-gray-300">
+                        <FaStore className="text-primary text-lg" />
+                        <span className="text-sm">
+                          <span className="text-gray-500">Brand:</span> <span className="font-medium">{brand}</span>
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 text-gray-300">
+                        <FaClock className="text-primary text-lg" />
+                        <span className="text-sm">
+                          <span className="text-gray-500">Added:</span> <span className="font-medium">{moment(createdAt).fromNow()}</span>
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 text-gray-300">
+                        <FaStar className="text-primary text-lg" />
+                        <span className="text-sm">
+                          <span className="text-gray-500">Reviews:</span> <span className="font-medium">{numReviews}</span>
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="two">
-                      <h1 className="flex items-center mb-6">
-                        <FaStar className="mr-2 text-white" /> Ratings:{" "}
-                        {Math.round(rating)}
-                      </h1>
-                      <h1 className="flex items-center mb-6">
-                        <FaShoppingCart className="mr-2 text-white" /> Quantity:{" "}
-                        {quantity}
-                      </h1>
-                      <h1 className="flex items-center mb-6">
-                        <FaBox className="mr-2 text-white" /> In Stock:{" "}
-                        {countInStock}
-                      </h1>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 text-gray-300">
+                        <FaStar className="text-primary text-lg" />
+                        <span className="text-sm">
+                          <span className="text-gray-500">Rating:</span> <span className="font-medium">{Math.round(rating)}</span>
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 text-gray-300">
+                        <FaShoppingCart className="text-primary text-lg" />
+                        <span className="text-sm">
+                          <span className="text-gray-500">Quantity:</span> <span className="font-medium">{quantity}</span>
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 text-gray-300">
+                        <FaBox className="text-primary text-lg" />
+                        <span className="text-sm">
+                          <span className="text-gray-500">In Stock:</span> <span className="font-medium">{countInStock}</span>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>

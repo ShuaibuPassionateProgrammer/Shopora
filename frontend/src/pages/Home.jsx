@@ -16,27 +16,38 @@ const Home = () => {
         <Loader />
       ) : isError ? (
         <Message variant="danger">
-          {isError?.data.message || isError.error}
+          {isError?.data?.message || isError?.error || "An error occurred"}
         </Message>
       ) : (
         <>
-          <div className="flex justify-between items-center">
-            <h1 className="ml-[20rem] mt-[10rem] text-[3rem]">
-              Special Products
-            </h1>
+          {/* Hero Section */}
+          <div className="container mx-auto px-4 lg:px-8 mt-16 lg:mt-24">
+            <div className="hero-section">
+              <div className="relative z-10 flex flex-col lg:flex-row justify-between items-center gap-6">
+                <div className="text-center lg:text-left">
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold heading-premium mb-4">
+                    <span className="text-gradient">Special</span> Products
+                  </h1>
+                  <p className="text-gray-400 text-lg max-w-2xl">
+                    Discover our curated collection of premium products, handpicked just for you
+                  </p>
+                </div>
 
-            <Link
-              to="/shop"
-              className="bg-pink-600 font-bold rounded-full py-2 px-10 mr-[18rem] mt-[10rem]"
-            >
-              Shop
-            </Link>
+                <Link
+                  to="/shop"
+                  className="btn-primary rounded-full py-3 px-12 text-lg font-semibold shadow-glow hover:shadow-glow-lg whitespace-nowrap"
+                >
+                  Explore Shop →
+                </Link>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <div className="flex justify-center flex-wrap mt-[2rem]">
-              {data.products.map((product) => (
-                <div key={product._id}>
+          {/* Products Grid */}
+          <div className="container mx-auto px-4 lg:px-8 py-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+              {data.products.map((product, index) => (
+                <div key={product._id} className="stagger-item w-full max-w-md">
                   <Product product={product} />
                 </div>
               ))}

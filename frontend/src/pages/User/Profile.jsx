@@ -46,71 +46,92 @@ const Profile = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 mt-[10rem]">
-      <div className="flex justify-center align-center md:flex md:space-x-4">
-        <div className="md:w-1/3">
-          <h2 className="text-2xl font-semibold mb-4">Update Profile</h2>
-          <form onSubmit={submitHandler}>
-            <div className="mb-4">
-              <label className="block text-white mb-2">Name</label>
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto">
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            My Profile
+          </h1>
+          <p className="text-gray-400 mt-2">Manage your account settings and preferences</p>
+        </div>
+
+        <div className="bg-gradient-to-br from-[#1a1a1a] to-[#1f1f1f] border border-[#333] rounded-2xl p-8 shadow-premium">
+          <form onSubmit={submitHandler} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Username
+              </label>
               <input
                 type="text"
                 placeholder="Enter name"
-                className="form-input p-4 rounded-sm w-full"
+                className="w-full px-4 py-3 bg-[#0f0f10] border border-[#333] rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
                 value={username}
                 onChange={(e) => setUserName(e.target.value)}
               />
             </div>
 
-            <div className="mb-4">
-              <label className="block text-white mb-2">Email Address</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Email Address
+              </label>
               <input
                 type="email"
                 placeholder="Enter email"
-                className="form-input p-4 rounded-sm w-full"
+                className="w-full px-4 py-3 bg-[#0f0f10] border border-[#333] rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
-            <div className="mb-4">
-              <label className="block text-white mb-2">Password</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                New Password
+              </label>
               <input
                 type="password"
-                placeholder="Enter password"
-                className="form-input p-4 rounded-sm w-full"
+                placeholder="Enter new password (leave blank to keep current)"
+                className="w-full px-4 py-3 bg-[#0f0f10] border border-[#333] rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
-            <div className="mb-4">
-              <label className="block text-white mb-2">Confirm Password</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Confirm Password
+              </label>
               <input
                 type="password"
-                placeholder="Confirm password"
-                className="form-input p-4 rounded-sm w-full"
+                placeholder="Confirm new password"
+                className="w-full px-4 py-3 bg-[#0f0f10] border border-[#333] rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <button
                 type="submit"
-                className="bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600"
+                className="btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={loadingUpdateProfile}
               >
-                Update
+                {loadingUpdateProfile ? "Updating..." : "Update Profile"}
               </button>
 
               <Link
                 to="/user-orders"
-                className="bg-pink-600 text-white py-2 px-4 rounded hover:bg-pink-700"
+                className="flex-1 px-6 py-3 bg-[#2a2a2a] hover:bg-[#333] border border-[#444] text-white rounded-lg font-medium transition-all duration-300 text-center"
               >
-                My Orders
+                View My Orders
               </Link>
             </div>
-            {loadingUpdateProfile && <Loader />}
+
+            {loadingUpdateProfile && (
+              <div className="flex justify-center mt-4">
+                <Loader />
+              </div>
+            )}
           </form>
         </div>
       </div>

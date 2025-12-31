@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { Route, RouterProvider, createRoutesFromElements } from "react-router";
 import { createBrowserRouter } from "react-router-dom";
+import "flowbite";
 
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -32,9 +33,11 @@ import Shop from "./pages/Shop.jsx";
 import Shipping from "./pages/Orders/Shipping.jsx";
 import PlaceOrder from "./pages/Orders/PlaceOrder.jsx";
 import Order from "./pages/Orders/Order.jsx";
+import UserOrder from "./pages/User/UserOrder.jsx";
 import OrderList from "./pages/Admin/OrderList.jsx";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,6 +56,7 @@ const router = createBrowserRouter(
         <Route path="/shipping" element={<Shipping />} />
         <Route path="/placeorder" element={<PlaceOrder />} />
         <Route path="/order/:id" element={<Order />} />
+        <Route path="/user-orders" element={<UserOrder />} />
       </Route>
 
       <Route path="/admin" element={<AdminRoute />}>
@@ -65,6 +69,9 @@ const router = createBrowserRouter(
         <Route path="orderlist" element={<OrderList />} />
         <Route path="dashboard" element={<AdminDashboard />} />
       </Route>
+
+      {/* 404 Catch-all route */}
+      <Route path="*" element={<NotFound />} />
     </Route>
   )
 );

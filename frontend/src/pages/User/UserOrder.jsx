@@ -2,80 +2,161 @@ import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import { Link } from "react-router-dom";
 import { useGetMyOrdersQuery } from "../../redux/api/orderApiSlice";
+import { FaCheck, FaTimes, FaEye } from "react-icons/fa";
 
 const UserOrder = () => {
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
 
   return (
-    <div className="container mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">My Orders </h2>
+    <div className="container mx-auto px-4 py-8">
+      {/* Page Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+          My Orders
+        </h1>
+        <p className="text-gray-400 mt-2">Track and manage your order history</p>
+      </div>
 
       {isLoading ? (
-        <Loader />
+        <div className="flex justify-center py-12">
+          <Loader />
+        </div>
       ) : error ? (
         <Message variant="danger">{error?.data?.error || error.error}</Message>
+      ) : orders?.length === 0 ? (
+        <div className="bg-gradient-to-br from-[#1a1a1a] to-[#1f1f1f] border border-[#333] rounded-2xl p-12 text-center">
+          <div className="mb-6">
+            <div className="w-24 h-24 bg-[#2a2a2a] rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-5xl">📦</span>
+            </div>
+            <h3 className="text-2xl font-bold text-white mb-2">No Orders Yet</h3>
+            <p className="text-gray-400">Start shopping to see your orders here!</p>
+          </div>
+          <Link to="/shop" className="btn-primary inline-block">
+            Browse Products
+          </Link>
+        </div>
       ) : (
-        <table className="w-full">
-          <thead>
-            <tr>
-              <td className="py-2">IMAGE</td>
-              <td className="py-2">ID</td>
-              <td className="py-2">DATE</td>
-              <td className="py-2">TOTAL</td>
-              <td className="py-2">PAID</td>
-              <td className="py-2">DELIVERED</td>
-              <td className="py-2"></td>
-            </tr>
-          </thead>
+        <div className="bg-gradient-to-br from-[#1a1a1a] to-[#1f1f1f] border border-[#333] rounded-2xl shadow-premium overflow-hidden">
+          {/* Table Header */}
+          <div className="px-6 py-4 border-b border-[#333]">
+            <p className="text-sm text-gray-400">
+              Total Orders: <span className="text-primary font-semibold">{orders?.length}</span>
+            </p>
+          </div>
 
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order._id}>
-                <img
-                  src={order.orderItems[0].image}
-                  alt={order.user}
-                  className="w-[6rem] mb-5"
-                />
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-[#333]">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Product
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Order ID
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Date
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Total
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Payment
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Delivery
+                  </th>
+                  <th className="px-6 py-4 text-right text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
 
-                <td className="py-2">{order._id}</td>
-                <td className="py-2">{order.createdAt.substring(0, 10)}</td>
-                <td className="py-2">$ {order.totalPrice}</td>
+              <tbody className="divide-y divide-[#333]">
+                {orders.map((order) => (
+                  <tr key={order._id} className="hover:bg-[#252525] transition-colors duration-200">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={order.orderItems[0].image}
+                          alt={order.orderItems[0].name}
+                          className="w-16 h-16 object-cover rounded-lg border border-[#333]"
+                        />
+                        <div>
+                          <p className="text-white font-medium line-clamp-1">
+                            {order.orderItems[0].name}
+                          </p>
+                          {order.orderItems.length > 1 && (
+                            <p className="text-xs text-gray-400">
+                              +{order.orderItems.length - 1} more item(s)
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </td>
 
-                <td className="py-2">
-                  {order.isPaid ? (
-                    <p className="p-1 text-center bg-green-400 w-[6rem] rounded-full">
-                      Completed
-                    </p>
-                  ) : (
-                    <p className="p-1 text-center bg-red-400 w-[6rem] rounded-full">
-                      Pending
-                    </p>
-                  )}
-                </td>
+                    <td className="px-6 py-4">
+                      <span className="text-sm text-gray-400 font-mono">
+                        {order._id.substring(0, 8)}...
+                      </span>
+                    </td>
 
-                <td className="px-2 py-2">
-                  {order.isDelivered ? (
-                    <p className="p-1 text-center bg-green-400 w-[6rem] rounded-full">
-                      Completed
-                    </p>
-                  ) : (
-                    <p className="p-1 text-center bg-red-400 w-[6rem] rounded-full">
-                      Pending
-                    </p>
-                  )}
-                </td>
+                    <td className="px-6 py-4">
+                      <span className="text-sm text-gray-300">
+                        {new Date(order.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric'
+                        })}
+                      </span>
+                    </td>
 
-                <td className="px-2 py-2">
-                  <Link to={`/order/${order._id}`}>
-                    <button className="bg-pink-400 text-back py-2 px-3 rounded">
-                      View Details
-                    </button>
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    <td className="px-6 py-4">
+                      <span className="text-lg font-bold text-white">
+                        ${order.totalPrice.toFixed(2)}
+                      </span>
+                    </td>
+
+                    <td className="px-6 py-4">
+                      {order.isPaid ? (
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/20 text-primary border border-primary/30">
+                          <FaCheck className="mr-1" /> Paid
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-400 border border-red-500/30">
+                          <FaTimes className="mr-1" /> Pending
+                        </span>
+                      )}
+                    </td>
+
+                    <td className="px-6 py-4">
+                      {order.isDelivered ? (
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/20 text-primary border border-primary/30">
+                          <FaCheck className="mr-1" /> Delivered
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                          <FaTimes className="mr-1" /> In Transit
+                        </span>
+                      )}
+                    </td>
+
+                    <td className="px-6 py-4 text-right">
+                      <Link to={`/order/${order._id}`}>
+                        <button className="inline-flex items-center px-4 py-2 bg-primary/20 hover:bg-primary text-primary hover:text-white border border-primary/30 hover:border-primary rounded-lg font-medium transition-all duration-300">
+                          <FaEye className="mr-2" />
+                          View
+                        </button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
     </div>
   );
