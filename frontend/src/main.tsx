@@ -10,18 +10,18 @@ import "flowbite";
 import PrivateRoute from "./components/PrivateRoute";
 
 // Auth
-import Login from "./pages/Auth/Login";
-import Register from "./pages/Auth/Register";
+import Login from "./pages/Auth/Login.tsx";
+import Register from "./pages/Auth/Register.tsx";
 
-import AdminRoute from "./pages/Admin/AdminRoute";
-import Profile from "./pages/User/Profile";
-import UserList from "./pages/Admin/UserList";
+import AdminRoute from "./pages/Admin/AdminRoute.tsx";
+import Profile from "./pages/User/Profile.tsx";
+import UserList from "./pages/Admin/UserList.tsx";
 
-import CategoryList from "./pages/Admin/CategoryList";
+import CategoryList from "./pages/Admin/CategoryList.tsx";
 
-import ProductList from "./pages/Admin/ProductList";
-import AllProducts from "./pages/Admin/AllProducts";
-import ProductUpdate from "./pages/Admin/ProductUpdate";
+import ProductList from "./pages/Admin/ProductList.tsx";
+import AllProducts from "./pages/Admin/AllProducts.tsx";
+import ProductUpdate from "./pages/Admin/ProductUpdate.tsx";
 
 import Home from "./pages/Home.tsx";
 import Favorites from "./pages/Products/Favorites.tsx";
